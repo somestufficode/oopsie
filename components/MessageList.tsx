@@ -48,7 +48,7 @@ export default function MessageList({ messages }: MessageListProps) {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Messages (Starting from David's inclusion)</h2>
+      <h2 className="text-xl font-bold mb-4">Messages (Starting from Davids inclusion)</h2>
       <div className="space-y-2">
         {currentMessages.map((message) => (
           <div key={message.id} className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">

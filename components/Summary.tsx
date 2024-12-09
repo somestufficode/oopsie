@@ -29,7 +29,7 @@ export default function Summary({ messages }: SummaryProps) {
 
   return (
     <div className="bg-gray-100 p-3 rounded-lg">
-      <h2 className="text-lg font-semibold mb-2">Summary (Since David's inclusion)</h2>
+      <h2 className="text-lg font-semibold mb-2">Summary (Since Davids inclusion)</h2>
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div><strong>Total Messages:</strong> {totalMessages}</div>
         <div><strong>Unique Users:</strong> {uniqueUsers}</div>
