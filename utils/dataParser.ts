@@ -67,14 +67,15 @@ export async function parseTextFile(filePath: string): Promise<{ chats: Chat[], 
         typeof message.date === 'string'
       );
 
-      const davidIndex = findDavidIndex(messages);
-      const filteredMessages = messages.slice(davidIndex);
+      // const davidIndex = findDavidIndex(messages);
+      // const filteredMessages = messages.slice(davidIndex);
 
       return {
         name: chat.name,
         type: chat.type,
         id: chat.id,
-        messages: filteredMessages,
+        // messages: filteredMessages,
+        messages: messages,
       };
     });
 
@@ -85,10 +86,10 @@ export async function parseTextFile(filePath: string): Promise<{ chats: Chat[], 
   }
 }
 
-function findDavidIndex(messages: Message[]): number {
-  return messages.findIndex(message => 
-    (message.type === 'message' && message.from?.includes('David')) ||
-    (message.type === 'service' && message.actor?.includes('David'))
-  );
-}
+// function findDavidIndex(messages: Message[]): number {
+//   return messages.findIndex(message => 
+//     (message.type === 'message' && message.from?.includes('David')) ||
+//     (message.type === 'service' && message.actor?.includes('David'))
+//   );
+// }
 
