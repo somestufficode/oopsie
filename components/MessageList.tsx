@@ -12,7 +12,7 @@ interface MessageListProps {
 export default function MessageList({ messages }: MessageListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentMessages, setCurrentMessages] = useState<Message[]>([]);
-  const messagesPerPage = 25;
+  const messagesPerPage = 25; // Increased from 10 to 25
 
   useEffect(() => {
     const indexOfLastMessage = currentPage * messagesPerPage;
@@ -48,7 +48,7 @@ export default function MessageList({ messages }: MessageListProps) {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Messages (Starting from Davids inclusion)</h2>
+      <h2 className="text-xl font-bold mb-4">Messages</h2>
       <div className="space-y-2">
         {currentMessages.map((message) => (
           <div key={message.id} className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
@@ -81,3 +81,4 @@ export default function MessageList({ messages }: MessageListProps) {
     </div>
   );
 }
+
