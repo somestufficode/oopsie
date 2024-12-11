@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Message } from '@/utils/dataParser';
 import Pagination from './Pagination';
 import { format } from 'date-fns';
@@ -26,9 +26,15 @@ export default function MessageList({ messages }: MessageListProps) {
   const messagesPerPage = 25;
   const messageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const updateCurrentMessages = useCallback(() => {
+    const indexOfLastMessage = currentPage * messagesPerPage;
+    const indexOfFirstMessage = indexOfLastMessage - messagesPerPage;
+    setCurrentMessages(messages.slice(indexOfFirstMessage, indexOfLastMessage));
+  }, [currentPage, messages, messagesPerPage]);
+
   useEffect(() => {
     updateCurrentMessages();
-  }, [currentPage, messages]);
+  }, [updateCurrentMessages]);
 
   useEffect(() => {
     if (searchResults.length > 0 && currentSearchIndex !== -1) {
@@ -37,13 +43,7 @@ export default function MessageList({ messages }: MessageListProps) {
         setCurrentPage(pageIndex + 1);
       }
     }
-  }, [currentSearchIndex, searchResults]);
-
-  const updateCurrentMessages = () => {
-    const indexOfLastMessage = currentPage * messagesPerPage;
-    const indexOfFirstMessage = indexOfLastMessage - messagesPerPage;
-    setCurrentMessages(messages.slice(indexOfFirstMessage, indexOfLastMessage));
-  };
+  }, [currentSearchIndex, searchResults, currentPage]);
 
   const totalPages = Math.ceil(messages.length / messagesPerPage);
 
@@ -101,7 +101,7 @@ export default function MessageList({ messages }: MessageListProps) {
     }
   };
 
-  const renderMessageText = (message: Message, index: number) => {
+  const renderMessageText = (message: Message) => {
     if (message.type === 'service') {
       return (
         <p className="italic text-sm text-gray-600">
@@ -142,7 +142,7 @@ export default function MessageList({ messages }: MessageListProps) {
           placeholder="Search messages..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handleSearch();
             }
@@ -189,7 +189,7 @@ export default function MessageList({ messages }: MessageListProps) {
                     {format(new Date(message.date), 'MMM d, yyyy HH:mm')}
                   </span>
                 </div>
-                <div className="text-sm">{renderMessageText(message, index)}</div>
+                <div className="text-sm">{renderMessageText(message)}</div>
                 {message.type === 'message' && message.reactions && (
                   <div className="mt-1 flex flex-wrap gap-1">
                     {message.reactions.map((reaction, i) => (
@@ -214,4 +214,3 @@ export default function MessageList({ messages }: MessageListProps) {
     </div>
   );
 }
-
